@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>~夕阳的小世界哦~</title>
+    <!-- 引入字体图标 -->
+    <link rel="stylesheet" href="./font/iconfont.css">
+    <link rel="icon" href="font/xuewu.png" type="image/png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;/*盒子模型*/
+        }
+
+        body {
+            min-height: 100vh;/*视窗高度*/
+            background-color: var(--body-color);/*背景颜色*/
+            transition: all 0.3s ease;/*过渡效果*/
+            /* background-image: url(font/bj.jpg);
+            background-size: cover;  直接添加背景图片 就会失去切换深色主题的效果*/
+            display: flex;/*设置为弹性盒子*/
+        }
+
+        /* 设置全局变量 */
+        :root {
+            --body-color: #E4E9F7;
+            --shell-color: #FFF;
+            --primary-color: #695CFE;/*主题色*/
+            --primary-color-light: #F6F5FF;/*主题色浅色*/
+            --toggle-color: #DDD;
+            --text-color: #707070;
+        }
+
+        /* 深色主题变量 */
+        .dark {
+            --body-color: #202224;
+            --shell-color: #171717;/*侧边栏背景颜色(深色模式时）*/
+            --primary-color: #3a3b3c;
+            --primary-color-light: #3a3b3c;
+            --toggle-color: #fff;
+            --text-color: #ccc;
+            background-image: url(font/bj.jpg);
+            background-size: cover;/*设置背景图片*/
+
+            
+        }
+
+        .shell {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 250px;
+            padding: 10px 14px;
+            background: var(--shell-color);
+            transition: all 0.3s ease;
+            z-index: 100;/*设置层级*/
+        }
+
+        .close {
+            width: 88px;
+        }
+
+        .shell li {
+            height: 50px;
+            list-style: none;/*去除列表的点*/
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .image,
+        .icon {
+            min-width: 60px;/*最小宽度*/
+            border-radius: 6px;
+        }
+
+        .icon {
+            min-width: 60px;
+            border-radius: 6px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font: 300 23px '';/*字体大小*/
+        }
+
+        .text,
+        .icon {
+            color: var(--text-color);/*深色模式字体颜色*/
+            transition: all 0.3s ease;/*过渡效果*/
+        }
+
+        .text {
+            font: 500 17px;
+            white-space: nowrap;/*不换行*/
+            opacity: 1;
+        }
+
+        .shell.close .text {
+            opacity: 0;
+        }
+
+        header {
+            position: relative;
+        }
+
+        .image-text {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;/*垂直排列*/
+        }
+
+        .name {
+            margin-top: 2px;
+            font: 600 18px '';
+        }
+
+        .software {
+            font-size: 20px;
+            margin-top: -2px;
+            display: block;
+        }
+
+        .image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image img {
+            width: 45px;
+            border-radius: 6px;
+        }
+
+        .toggle {
+            position: absolute;
+            top: 50%;
+            right: -25px;
+            transform: translateY(-50%) rotate(180deg);/*元素向上移动本身高度的50% 元素再旋转180度 transform函数，它将元素沿Y轴（垂直方向）移动*/
+            height: 25px;
+            width: 25px;
+            background-color: var(--primary-color);
+            color: var(--shell-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle {
+            color: #ccc;
+        }
+
+        .shell.close .toggle {
+            transform: translateY(-50%) rotate(0deg);
+        }
+
+        .menu {
+            margin-top: 40px;
+        }
+
+        li.search-box {
+            border-radius: 6px;
+            background-color: var(--primary-color-light);
+            cursor: pointer;/*鼠标移动到上面时变成手指*/
+            transition: all 0.3s ease;
+        }
+
+        li.search-box input {
+            height: 100%;
+            width: 100%;
+            outline: none;/*去除边框*/
+            border: none;
+            background-color: var(--primary-color-light);
+            color: var(--text-color);
+            border-radius: 6px;
+            font-size: 17px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .shell li a {
+            list-style: none;
+            height: 100%;
+            background-color: transparent;/*背景颜色透明*/
+            display: flex;
+            align-items: center;
+            height: 100%;
+            width: 100%;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .shell li a:hover {
+            background-color: var(--primary-color);
+        }
+
+        .shell li a:hover .icon,
+        .shell li a:hover .text {
+            color: var(--shell-color);
+        }
+
+        .menu-bar {
+            height: calc(100% - 55px);
+            display: flex;
+            flex-direction: column;/*垂直排列*/
+            justify-content: space-between;/*两端对齐*/
+            overflow-y: scroll;/*滚动条*/
+        }
+
+        .menu-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .menu-bar .mode {
+            border-radius: 6px;
+            background-color: var(--primary-color-light);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .menu-bar .mode .sun-moon {
+            height: 50px;
+            width: 60px;
+        }
+
+        .mode .sun-moon i {
+            position: absolute;/*绝对定位*/
+        }
+
+        .mode .sun-moon i.sun {
+            opacity: 0;/*透明度*/
+        }
+
+        .toggle-switch {
+            position: absolute;
+            right: 0;
+            height: 100%;
+            min-width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .switch {
+            position: relative;
+            height: 22px;
+            width: 40px;
+            border-radius: 25px;
+            background-color: var(--toggle-color);
+            transition: all 0.3s ease;/*开关的过渡效果*/
+        }
+
+        .switch::before {/*开关的小圆点*/
+            content: '';
+            position: absolute;
+            height: 15px;
+            width: 15px;
+            border-radius: 50%;
+            top: 50%;
+            left: 5px;
+            transform: translateY(-50%);/*元素向上移动本身高度的50%*/
+            background-color: var(--shell-color);/*开关的小圆点颜色*/
+            transition: all 0.3s ease;
+        }
+
+        .dark .shell li a:hover .icon, 
+        .dark .shell li a:hover .text {
+            color: #ccc;
+        }
+
+        .dark .mode .sun-moon i.sun {
+            opacity: 1;
+        }
+
+        .dark .mode .sun-moon i.moon {
+            opacity: 0;
+        }
+
+        .dark .switch::before {
+            left: 20px;
+        }
+        .DefaultArticle{
+            width: calc(100% - 300px);/*减去左右边距各150px*/
+            max-width: 80%;/*最大宽度*/
+            height: 90vh;/*90视窗高度*/
+            padding: 20px;
+            background-color: transparent;/*背景颜色透明*/
+            border:1px solid Violet;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);/*添加阴影效果*/
+            /*实现居中*/
+            position: absolute;
+            left:55%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+        }
+        .AritcleTitle{
+            text-align: center;
+            font-family: "微软雅黑";
+        }
+        .ReleaseTime{
+            text-align: center;
+        }
+        .Details{
+            width: 75%;
+            height: 80%;
+            position: relative;
+            left:50%;
+            top: 50%;
+            transform: translate(-50%,-50%);/*实现居中*/
+        }
+        #time {
+            display: inline;
+        }
+        .dark-article {
+        color: #FFFFF0;
+        border: 1px solid Gainsboro;
+        }
+        .ArticleContene{
+            text-align: center;
+        }
+        #playbutton {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        background-color: transparent;
+        border: none;
+        color: #E4E9F7;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="shell close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="font/123.png">
+                </span>
+                <div class="text logo-text">
+                    <span class="name">小夕阳的侧边栏</span>
+                    <span class="software">-Welcome-</span>
+                </div>
+            </div>
+            <i class="iconfont icon-xiangyoujiantou toggle"></i>
+        </header>
+        <div class="menu-bar">
+            <div class="menu">
+                <li class="search-box">
+                    <i class="iconfont icon-sousuo icon"></i>
+                    <input type="text" placeholder="搜索...">
+                </li>
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="zy.html" target="_blank">
+                            <i class="iconfont icon-shouye icon" ></i>
+                            <span class="text nac-text">主页</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="404/404.html">
+                            <i class="iconfont icon-shoucangxiao icon"></i>
+                            <span class="text nac-text">我的收藏</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="404/404.html">
+                            <i class="iconfont icon-lishi icon"></i>
+                            <span class="text nac-text">历史记录</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="http://dongfeng.66ghz.com/5/index.html?i=1" target="_blank">
+                            <i class="iconfont icon-xiaoxi icon"></i>
+                            <span class="text nac-text">特效</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="yybfq/yy.html" target="_blank">
+                            <i class="iconfont icon-fensi icon"></i>
+                            <span class="text nac-text">音乐</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="lyb/lyb.html" target="_blank">
+                            <i class="iconfont icon-chuangzuo icon"></i>
+                            <span class="text nac-text">留言板</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="bottom-content">
+                <li class="">
+                    <a id="logout-link" href="javascript:window.close();" target="_self">
+                        <i class="iconfont icon-zhuxiaoyuan icon"></i>
+                        <span class="text nac-text">注销</span>
+                    </a>
+                </li>
+                <li class="mode">
+                    <div class="sun-moon">
+                        <i class="iconfont icon-rijian icon sun"></i>
+                        <i class="iconfont icon-yejian icon moon"></i>
+                    </div>
+                    <span class="mode-text text">夜间模式</span>
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+            </div>
+        </div>
+    </nav>
+    <div class="DefaultArticle">
+        <h1 class="AritcleTitle">老人与海
+            - 海明威 -
+        </h1>
+        <h4 class="ReleaseTime">当前时间为：<p id="time"></p></h4>
+        <div class="Details">
+            <p class="ArticleContene">自美国作家海明威的宏篇《丧钟为谁而鸣》在1940年出版后,1952年问世的《老人与海》是他最成功的创作。此书使海明威获1953年度普利策奖及1954年度诺贝尔文学奖。中篇小说《老人与海》讲述了一个根据真人真事改写的故事:老渔夫桑提亚哥在连续84天没捕到鱼的情况下,终于捕到一条大马林鱼,但这鱼实在大,它把小船在海上拖了3天,才筋疲力尽被捕获。老人杀死大鱼绑在小船一边,归途中又一再遭鲨鱼的袭击,回港时只剩下鱼的头尾和一条脊骨。作品庄严悲壮地表现了老人与大鱼周旋,与鲨鱼搏斗的场面。书中老人的话道出本书主旨:“人不是为失败而生的,一个人可以被毁灭,但不能给打败。”作品歌颂了老人非凡的毅力和坚韧的决心,肯定了不以苦乐为意的忍耐和容忍的道德理想。面临最古老的文学主题——人和自然的关系,此书用了大量象征手法,以几次梦见狮子作为精神力量和人的旺盛生命力的象征,以大鱼在与老人长时间搏斗后死去,代表一种光荣,死去的大鱼又被代表破坏者的鲨鱼所毁——光荣丧失在卑鄙之下。《老人与海》展示了海明威精于心理描写,叙述简洁凝练的高超创作才能。英国当代著名小说家、批评家安东尼·伯吉斯评价《老人与海》时说:“这个朴素的故事里充满了并非故意卖弄的寓意……作为一篇干净利落的‘陈述性’散文,它在海明威的全部作品中都是无与伦比的。”</p>
+        </div>
+    </div>
+    <audio src="404/wjpDJ.mp3"></audio>
+    <button id="playbutton">111</button>
+</body>
+
+
+<script>
+
+    const body = document.querySelector('body'),
+        shell = body.querySelector('nav'),
+        toggle = body.querySelector(".toggle"),
+        searchBtn = body.querySelector(".search-box"),
+        defaultArticle = document.querySelector('.DefaultArticle'),
+        modeSwitch = body.querySelector(".toggle-switch"),
+        modeText = body.querySelector(".mode-text");
+    // 点击toggle元素时触发事件
+    toggle.addEventListener("click", () => {
+        // 切换shell元素的close类
+        shell.classList.toggle("close");
+    })
+    // 点击searchBtn元素时触发事件
+    searchBtn.addEventListener("click", () => {
+        // 移除shell元素的close类
+        shell.classList.remove("close");
+    })
+    defaultArticle.addEventListener("click", () => {
+        // 移除shell元素的close类
+        shell.classList.remove("close");
+    })
+    // 点击modeSwitch元素时触发事件
+    modeSwitch.addEventListener("click", () => {
+        // 切换body元素的dark类
+        defaultArticle.classList.toggle("dark-article");//文章字体颜色
+        body.classList.toggle("dark");
+        // 如果body元素包含dark类
+        if (body.classList.contains("dark")) {
+            modeText.innerText = "白日模式";
+        } else {
+            modeText.innerText = "夜间模式";
+        }
+    });
+    /*获取当前的时间  
+    updateTime 函数通过 document.getElementById('time') 获取了 id 为 'time' 的 HTML 元素，然后使用 new Date().toLocaleTimeString() 获取当前的时间，并将其设置为该元素的 innerHTML，也就是它的内容*/
+    function updateTime() {
+            document.getElementById('time').innerHTML = new Date().toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000); // 每隔1秒调用一次 updateTime() 函数
+/*        实现注销功能 当点击注销时，关闭当前窗口 document.getElementById("logout-link") 是获取id为"logout-link"的HTML元素 addEventListener("click", function() {...}) 是添加一个点击事件监听器到这个元素。当用户点击这个元素时，会执行这个函数。window.close(); 是关闭当前的浏览器窗口。这个函数通常在用户点击"退出"或"注销"按钮时使用。
+        document.getElementById("logout-link").addEventListener("click", function() {
+            window.close();
+        });) 用这个方法有一些浏览器兼容不了*/
+
+        const audio = document.querySelector('audio');
+        const playButton = document.querySelector('#playbutton');
+
+        playButton.addEventListener('click', () => {
+            audio.play();
+        });
+</script>
+
+</html>

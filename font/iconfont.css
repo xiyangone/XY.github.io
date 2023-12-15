@@ -1,0 +1,24 @@
+.icon-sousuo::before{
+    content: url(ss.png);
+}
+.icon-shouye::before{
+    content: url(zy.png);
+}
+.icon-shoucangxiao::before{
+    content: url(sc.png);
+}
+.icon-lishi::before{
+    content: url(lsjl.png);
+}
+.icon-xiaoxi::before{
+    content:url(xx.png);
+}
+.icon-fensi::before{
+    content: url(fsgl.png);
+}
+.icon-zhuxiaoyuan::before{
+    content: url(zx.png);
+}
+.icon-chuangzuo::before{
+    content: url(lyb.png);
+}

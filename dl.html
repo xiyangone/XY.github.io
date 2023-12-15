@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" href="style/login.css">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link rel="icon" href="font/adl.png" type="image/png">
+</head>
+<body>
+    <!-- 最外层的大盒子 -->
+    <div class="box">
+        <div class="pre-box">
+            <h1>WELCOME</h1>
+            <p>JOIN OUR</p>
+            <div class="img-box">
+                <img src="style/TD1.jpg" alt="">
+            </div>
+        </div>
+        <div class="register-form">
+            <div class="title-box">
+                <h1>注册</h1>
+            </div>
+            <div class="input-box">
+                <input type="text" placeholder="用户名">
+                <input type="text" placeholder="密码">
+                <input type="text" placeholder="确认密码">
+            </div>
+            <div class="btn-box">
+                <button>注册</button>
+                <p onclick="mySwitch()">已有账号?去登录</p>
+            </div>
+        </div>
+        <div class="login-form">
+            <div class="title-box">
+                <h1>登录</h1>
+            </div>
+            <div class="input-box">
+                <input type="text" placeholder="用户名">
+                <input type="text" placeholder="密码">
+            </div>
+            <div class="btn-box">
+                <button><a href="cbl.html">登录</a></button>
+                <p onclick="mySwitch()">没有账号?!去注册</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        // 滑动的状态
+         let flag=true
+         const mySwitch=()=>{
+            if(flag){
+                // 获取到滑动盒子的dom元素并修改它移动的位置
+                $(".pre-box").css("transform","translateX(100%)")
+                // 获取到滑动盒子的dom元素并修改它的背景颜色
+                $(".pre-box").css("background-color","#ffdab9")
+                //修改图片的路径
+                $("img").attr("src","style/TD1.jpg")
+                
+            }
+            else {
+                    $(".pre-box").css("transform","translateX(0%)")
+                    $(".pre-box").css("background-color","#fffaf0")
+                    $("img").attr("src","style/TD2.jpg")
+                }
+                flag=!flag
+             }
+       </script>
+       <script>
+        //封装泡泡的函数
+        const bubleCreate=()=>{
+            const body=document.body
+        const buble=document.createElement('span')
+        //指定半径 随机数
+        let r=Math.random()*5+25 //25~30
+        //样式
+        buble.style.width=r+'px'//宽度
+        buble.style.height=r+'px'//高度
+        //随机位置 innerWidth 是 JavaScript 中的一个属性，它返回浏览器窗口的视口宽度（以像素为单位），不包括滚动条。
+        buble.style.left=Math.random()*innerWidth+'px'
+        //给Body追加上泡泡
+        body.append(buble)
+        //定时清除泡泡
+        setTimeout(()=>{
+            buble.remove()
+        },4000)
+        }
+        //每200ms调用一次
+        setInterval(()=>{
+            bubleCreate()
+        },200);
+        </script>
+</body>
+</html>

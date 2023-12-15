@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板</title>
+    <link rel="stylesheet" href="lyb.css">
+    <link rel="icon" href="../font/alyb.png" type="image/png">
+</head>
+
+<body>
+    <div class="messages">
+        <h1>留言屋</h1>
+        <div class="form">
+            <input type="text" id="username" placeholder="用户名">
+            <textarea id="message" placeholder="留言内容"></textarea>
+            <button id="submitBtn">留言</button>
+        </div>
+        <div id="messageBoard">
+            <div class="message">
+                <div class="message-info">
+                    <div class="info">
+                        <img src="../font/123.png" width="50px" height="50px">
+                        <strong>夕阳 VIP</strong>
+                    </div>
+                    <span>发布于:2024/2/29 13:14:52</span>
+                </div>
+                <div class="content">Hello World</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    // 添加点击事件监听器，当提交按钮被点击时执行以下代码
+    document.getElementById("submitBtn").addEventListener('click', function () {
+        // 获取用户名和留言内容的值
+        var username = document.getElementById("username").value;
+        var message = document.getElementById("message").value;
+        // 如果留言内容为空，则弹出提示框并返回
+        if (message === '') {
+            alert("请输入留言内容");
+            return;
+        }
+        // 如果用户名为空，则将用户名设置为匿名
+        if (username === '') {
+            username = '匿名';
+        }
+        // 获取留言板元素
+        var messageBoard = document.getElementById("messageBoard");
+        // 创建新的留言元素
+        var newMessage = document.createElement("div");
+        newMessage.className = "message";
+        // 设置新的留言元素的内容
+        newMessage.innerHTML = '<div class="message-info"><div class="info"><img src="123.png"><strong>' + username + '</strong></div><span>发布于:' + getCurrentTime() + '</span></div><div class="content">' + message + '</div>';
+
+        // 将新的留言元素插入到留言板的第一个子元素之前
+        messageBoard.insertBefore(newMessage, messageBoard.firstChild);
+
+        // 清空用户名和留言内容的值
+        document.getElementById("username").value = '';
+        document.getElementById("message").value = '';
+    });
+
+    // 获取当前时间的函数
+    function getCurrentTime() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = ('0' + (now.getMonth() + 1)).slice(-2);
+        var day = ('0' + now.getDate()).slice(-2);
+        var hour = ('0' + now.getHours()).slice(-2);
+        var minute = ('0' + now.getMinutes()).slice(-2);
+        var second = ('0' + now.getSeconds()).slice(-2);
+        return year + '/' + month + '/' + day + ' ' + hour + ':' + minute + ':' + second;
+    }
+
+</script>
+
+</html>
